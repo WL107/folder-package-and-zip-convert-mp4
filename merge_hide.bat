@@ -1,9 +1,13 @@
-@echo on
+@echo off
 SETLOCAL ENABLEDELAYEDEXPANSION
+rem 依名稱做排序找資料夾名稱
+for /f "tokens=*" %%a in ('dir /b /a:d /o:n "*"') DO (
+cd %%a
+
 rem 將圖片透過ffmpeg轉換成mp4
 for %%i in (*.jpg,*.png,*.webp) DO (
 set "j=%%i"
-.\ff\ffmpeg.exe -i "%%i" -vcodec mpeg4 "!j:~0,-4%!1.mp4"
+..\..\ff\ffmpeg.exe -i "%%i" -vcodec mpeg4 "!j:~0,-4%!1.mp4"
 )
 
 for %%i in (*1.mp4) DO (
@@ -18,4 +22,6 @@ copy /b "!l!"+"%%i" "!k:~0,-4%!.mp4"
 rem 刪除暫存資料夾與影片
 del /q "!j:~0,-4%!1.mp4"
 
+cd ..
+)
 pause
